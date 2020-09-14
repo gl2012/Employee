@@ -1,0 +1,245 @@
+﻿@model IEnumerable<Empolyee>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+
+<style>
+    .avatar {
+        vertical-align: middle;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+    }
+</style>
+<div class="modal" id="modal1">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Modal title</p>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <!-- Content ... -->
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button is-success">Save changes</button>
+            <button class="button">Cancel</button>
+        </footer>
+    </div>
+</div>
+
+   
+    <h1 class="title">Employees</h1>
+    <table class="table  is-striped is-narrow is-hoverable is-fullwidth">
+        <tbody>
+            @foreach (var r in ViewBag.onePageOfemplist)
+            {
+                <tr style="border: solid;  border-color: gainsboro;height: 80px;border-radius:25px 25px;">
+                    <td style="border:none;border-color:white;width:100px">
+                        @if (@r.photoURL != null)
+                        {<img src=@r.photoURL class="avatar" />}
+                    </td>
+                    <td>
+                        <ul style="list-style-type:none">
+                            <li>  <b> @r.name.first  @r.name.last</b></li>
+                            <li style="font-size:small">   @r.jobTitle</li>
+                        </ul>
+
+                    </td>
+
+                </tr>
+                <tr><td colspan="2"> </td></tr>
+            }
+            <tr>
+                <td></td>
+                <td>
+
+                    <!-- <a class="button is-info modal-button" data-target="#modal">Add Employee</a>-->
+                    <p style="text-align:right"> <button class="button is-info " id="lanuchModal"><span><i class='fas fa-plus'> </i></span>  Add Employee</button></p>
+
+                    <div id="modal" class="modal">
+                        <div class="modal-background"></div>
+                        <div class="modal-card">
+                            <header class="modal-card-head">
+                                <p class="modal-card-title">Add Employee</p>
+                                <button class="delete" id="closetop" aria-label="close"></button>
+                            </header>
+
+                            <section class="modal-card-body">
+                                <div class="content">
+                                    <div class="field">
+                                        <label class="label">First Name</label>
+                                        <div class="control has-icons-left has-icons-right"">
+                                            <input class="input is-success" id="first" type="text" placeholder="Text input">
+                                            <span class="icon is-small is-left">
+                                                <i class="fas fa-user"></i>
+                                            </span>
+                                            <span class="icon is-small is-right">
+                                                <i class="fas fa-check"></i>
+                                            </span>
+                                        </div>
+                                        <label class="label " id="lblfirst" style="color:crimson;font:xx-small;font-style:italic"></label>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Last name</label>
+                                        <div class="control has-icons-left has-icons-right">
+                                            <input class="input is-success" id="last" type="text" placeholder="Text input">
+                                            <span class="icon is-small is-left">
+                                                <i class="fas fa-user"></i>
+                                            </span>
+                                            <span class="icon is-small is-right">
+                                                <i class="fas fa-check"></i>
+                                            </span>
+                                        </div>
+                                        <label class="label " id="lbllast" style="color:crimson;font:xx-small;font-style:italic"></label>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">ImageURL</label>
+                                        <div class="control">
+                                            <input class="input is-success" id="url" type="text" placeholder="Text input">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">JobTitle</label>
+                                        <div class="control">
+
+                                            <div class="select  is-success">
+                                                <select class="is-focused" id="title">
+                                                    @foreach (var a in ViewBag.jobtitlelist)
+                                                    {@if (a != null)
+                                                        {
+                                                            <option>@a</option>
+                                                        }
+
+                                                }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </section>
+                            <footer class="modal-card-foot">
+                                <button class="button is-success" id="savebtn">Save</button>
+                                <button class="button" id="closebtn">Cancel</button>
+                            </footer>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td> <p class="title  text-xl-left"><strong>@Html.PagedListPager((IPagedList)ViewBag.onePageOfemplist, page => Url.Action("Index", new { page = page, pagesize = ViewData["pagesizeNo"], SortItem = ViewData["item"] }), X.PagedList.Web.Common.PagedListRenderOptionsBase.Classic)</strong></p></td>
+                <td>
+                    <form mothod="get">
+                      
+                        <div class="select  is-success ">   @Html.DropDownList("pagesize", (SelectList)ViewData["pagesize"], new { onchange = "this.form.submit();" })
+                         </div>
+                        <div class="select  is-success">
+                            @Html.DropDownList("SortItem", (SelectList)ViewData["SortItem"], new { onchange = "this.form.submit();" })
+                        </div>
+
+                    </form>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+
+<script>
+    $(document).ready(function () {
+        //  $('.modal-button').click(function () {
+
+        //      var target = $(this).data("target");
+        //      $("html").addClass("is-clipped");
+        //      $(target).addClass("is-active");
+        //  });
+        //  });
+        $("#lanuchModal").click(function () {
+            $(".modal").addClass("is-active");
+        });
+        $(".modal-close").click(function () {
+            $(".modal").removeClass("is-active");
+        });
+        $("#closebtn").click(function () {
+            $(".modal").removeClass("is-active");
+        });
+
+
+
+        $('#savebtn').click(function (e) {
+            e.preventDefault();
+            var thefirst = $('#first').val();
+            var thelast = $('#last').val();
+            var theurl = $('#url').val();
+            var thetitle = $("#title option:selected").text();
+            var validationbool = true;
+            if (!$.trim($('#first').val())) {
+                $('#lblfirst').html('firstname is required ');
+                validationbool = false;
+            }
+            if (!$.trim($('#last').val())) {
+                $('#lbllast').html('lastname is required ');
+                validationbool = false;
+            }
+
+            var obj = {
+                first: thefirst,
+                last: thelast,
+                url: theurl,
+                title: thetitle
+            };
+            if (validationbool) {
+                $.ajax({
+                    url: "/Home/CreateEmployee",
+                    type: 'GET',
+                    data: obj,
+                    success: function (response) {
+                        alert(response.m);
+                        $(".modal").removeClass("is-active");
+                        
+                      
+                    },
+                    error: function (response) {
+                        console.log("error");
+                        console.log(response);
+                        alert(response.WhateverIsReturning);
+                    }
+                });
+            }
+        });
+
+        $("#closetop").click(function () {
+
+            $(".modal").removeClass("is-active");
+
+        });
+        $('#pagesize111').click(function (e) {
+            e.preventDefault();
+            
+            var thesize = $("#pagesize option:selected").text();
+            alert(thesize);
+            var obj = {
+                page:1,
+                size: thesize
+            };
+           
+                $.ajax({
+                    url: "/Home/index",
+                    type: 'GET',
+                    data: obj,
+                    success: function (response) {
+                        alert(response.WhateverIsReturning);
+
+                    },
+                    error: function (response) {
+                        console.log("error");
+                        console.log(response);
+                        alert(response.WhateverIsReturning);
+                    }
+                });
+            
+        });
+
+
+    });
+</script>
