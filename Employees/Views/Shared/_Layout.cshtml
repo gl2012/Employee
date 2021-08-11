@@ -12,16 +12,16 @@
 </head>
 <body>
     <header>
-       
-        <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+
+        <nav id="navMenu" class="navbar is-primary" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false">
+                <a role="button" id="navbar-burger-id" class="navbar-burger burger" aria-label="menu" aria-expanded="false">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                 </a>
             </div>
-            <div class="navbar-menu">
+            <div id="navbar-menu-id" class="navbar-menu">
                 <div class="navbar-start">
                     <a class="navbar-item">
                         Home
@@ -48,13 +48,35 @@
                 @RenderBody()
             </main>
         </div>
-        </section>
+    </section>
     <footer class="border-top footer text-muted">
-        
     </footer>
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <!-- <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>-->
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        @RenderSection("Scripts", required: false)
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <!-- <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>-->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+
+   <script>
+       // Close mobile & tablet menu on item click
+       $('.navbar-item').each(function (e) {
+           $(this).click(function () {
+               if ($('#navbar-burger-id').hasClass('is-active')) {
+                   $('#navbar-burger-id').removeClass('is-active');
+                   $('#navbar-menu-id').removeClass('is-active');
+               }
+           });
+       });
+
+       // Open or Close mobile & tablet menu
+       $('#navbar-burger-id').click(function () {
+           if ($('#navbar-burger-id').hasClass('is-active')) {
+               $('#navbar-burger-id').removeClass('is-active');
+               $('#navbar-menu-id').removeClass('is-active');
+           } else {
+               $('#navbar-burger-id').addClass('is-active');
+               $('#navbar-menu-id').addClass('is-active');
+           }
+       });
+       </script>
 </body>
 </html>
