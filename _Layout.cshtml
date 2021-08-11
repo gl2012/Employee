@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Employees</title>
+    <!--  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />-->
+    <!--<link rel="stylesheet" href="~/css/site.css" />-->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+</head>
+<body>
+    <header>
+
+        <nav id="navMenu" class="navbar is-primary" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a role="button" id="navbar-burger-id" class="navbar-burger burger" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div id="navbar-menu-id" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item">
+                        Home
+                    </a>
+                    <a class="navbar-item">
+                        Appointments
+                    </a>
+                    <a class="navbar-item">
+                        Clients
+                    </a>
+                    <a class="navbar-item">
+                        Employees
+                    </a>
+                </div>
+                <div class="navbar-end">
+                    <a class="navbar-item">Sign Out</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <section class="section">
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    </section>
+    <footer class="border-top footer text-muted">
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <!-- <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>-->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+
+   <script>
+       // Close mobile & tablet menu on item click
+       $('.navbar-item').each(function (e) {
+           $(this).click(function () {
+               if ($('#navbar-burger-id').hasClass('is-active')) {
+                   $('#navbar-burger-id').removeClass('is-active');
+                   $('#navbar-menu-id').removeClass('is-active');
+               }
+           });
+       });
+
+       // Open or Close mobile & tablet menu
+       $('#navbar-burger-id').click(function () {
+           if ($('#navbar-burger-id').hasClass('is-active')) {
+               $('#navbar-burger-id').removeClass('is-active');
+               $('#navbar-menu-id').removeClass('is-active');
+           } else {
+               $('#navbar-burger-id').addClass('is-active');
+               $('#navbar-menu-id').addClass('is-active');
+           }
+       });
+       </script>
+</body>
+</html>
